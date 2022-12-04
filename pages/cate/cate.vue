@@ -1,13 +1,17 @@
 <template>
   <view>
+		<!-- 搜索组件 -->
+		<!-- <my-search :backgroundColor="'black'" :borderRadius="'23'"></my-search> -->
+		<my-search @click="gotoSearch"></my-search>
+		
     <view class="scroll-view-container">
-		<!-- 左侧一级菜单 -->
+			<!-- 左侧一级菜单 -->
     	<scroll-view class="scroll-left-box" scroll-y :style="{height: wh + 'px'}">
     		<view v-for="(item,index) in cateList" :key="item.cat_id"
 			 :class="['scroll-left-item',index === active ? 'active' : '']" @click="changeActive(index)">{{ item.cat_name }}</view>
     	</scroll-view>
-		<!-- 右侧二三级菜单 -->
-		<scroll-view class="scroll-right-box" scroll-y :style="{height: wh + 'px'}" :scroll-top="scrollTop">
+			<!-- 右侧二三级菜单 -->
+			<scroll-view class="scroll-right-box" scroll-y :style="{height: wh + 'px'}" :scroll-top="scrollTop">
 			<view v-for="item in cateLevel2" :key="item.cat_id" class="cate-level2">
 				<!-- 二级菜单 -->
 				<view class="cate-level2-title">/ {{ item.cat_name }} /</view>
@@ -19,7 +23,7 @@
 						</view>
 					</view>
 				</view>
-		</scroll-view>
+			</scroll-view>
     </view>
   </view>
 </template>
@@ -59,11 +63,16 @@
 			uni.navigateTo({
 				url: '../../subpackages/goods_list/goods_list?cat_id='+id
 			})
+		},
+		gotoSearch(){
+			uni.navigateTo({
+				url: '/subpackages/search/search',
+			})
 		}
 	},
 	onLoad(){
 		const info=uni.getSystemInfoSync()
-		this.wh=info.windowHeight
+		this.wh=info.windowHeight-40
 		this.getCateList()
 		}
   }
@@ -72,6 +81,7 @@
 <style lang="scss">
 	.scroll-view-container{
 		display: flex;
+		margin-top: 40px;
 		.scroll-left-box{
 			width: 120px;
 			.scroll-left-item{
