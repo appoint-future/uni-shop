@@ -162,10 +162,11 @@
 	}
 	
 	.history-list{
+		box-sizing: border-box;
 		padding: 30rpx;
-		height: 95%;
+		height: 100%;
 		background-color: #fff;
-		border-radius: 35rpx;
+		border-radius: 35rpx 35rpx 0 0;
 		.history-title{
 			display: flex;
 			padding-bottom:15rpx;

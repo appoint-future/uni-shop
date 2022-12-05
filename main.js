@@ -23,7 +23,7 @@ $http.afterRequest = function () {
 
 // 挂载弹框组件
 uni.$showToast=function(title = '数据请求失败' , duration = 1500 , icon = 'none'){
-	uni.showLoading({
+	uni.showToast({
 		title,
 		duration,
 		icon
