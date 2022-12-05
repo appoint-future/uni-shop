@@ -1,5 +1,5 @@
 <template>
-	<view class="search-container noScrolling">
+	<view v-if="historyList" class="search-container noScrolling">
 		<!-- 搜索框区域 -->
 		<view class="search-box">
 			<image src="../../static/search.png" class="icon-saerch"></image>

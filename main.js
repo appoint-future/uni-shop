@@ -42,9 +42,16 @@ app.$mount()
 
 // #ifdef VUE3
 import {
-  createSSRApp
+  createSSRApp,
+	Vue
 } from 'vue'
+import ClUni from "cl-uni";
 import App from './App.vue'
+
+Vue.use(ClUni, {
+	// 进入业务单页时，页面栈只有一个，自定义导航左侧返回按钮跳转的路径
+	homePage: "/"
+});
 export function createApp() {
   const app = createSSRApp(App)
   return {

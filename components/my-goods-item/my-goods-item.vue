@@ -54,7 +54,7 @@
 				margin-left: 20rpx;
 				font-size: 28rpx;
 				.goods-price{
-					color: #C00000;
+					color: #FF0000;
 					font-size: 36rpx;
 				}
 			}
