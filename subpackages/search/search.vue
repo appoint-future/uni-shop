@@ -1,30 +1,32 @@
 <template>
-	<view v-if="historyList" class="search-container noScrolling">
+	<view v-if="wh" class="search-container noScrolling">
 		<!-- 搜索框区域 -->
 		<view class="search-box">
-			<image src="../../static/search.png" class="icon-saerch"></image>
+			<image src="http://rmf8g6uw4.bkt.clouddn.com/search.png" class="icon-saerch"></image>
 			<input focus @blur="blur" type="text" placeholder="请输入搜索的内容" v-model="searchInfo" @input="input"/>
 		</view>
 		<!-- 搜索列表建议 -->
-		<scroll-view scroll-y :style="{'height': wh + 'px'}">
-			<!-- 搜索列表 -->
-			<view v-if="searchList.length!==0" class="search-list">
-				<view v-for="item in searchList" :key="item.goods_id" @click="gotoDetail(item.goods_id)" class="search-list-item">
-					<image src="../../static/search.png"></image>
-					<text>{{ item.goods_name }}</text>
+		<view class="list-container">
+			<scroll-view scroll-y :style="{'height': wh + 'px'}" :show-scrollbar="false" :enhanced="true">
+				<!-- 搜索列表 -->
+				<view v-if="searchList.length!==0" class="search-list">
+					<view v-for="item in searchList" :key="item.goods_id" @click="gotoDetail(item.goods_id)" class="search-list-item">
+						<image src="http://rmf8g6uw4.bkt.clouddn.com/search.png"></image>
+						<text>{{ item.goods_name }}</text>
+					</view>
 				</view>
-			</view>
-			<!-- 搜索历史 -->
-			<view v-else class="history-list">
-				<view class="history-title">
-					<text>搜索历史</text>
-					<image src="../../static/delete.png" @click="clean"></image>
+				<!-- 搜索历史 -->
+				<view v-else class="history-list">
+					<view class="history-title">
+						<text>搜索历史</text>
+						<image src="http://rmf8g6uw4.bkt.clouddn.com/delete.png" @click="clean"></image>
+					</view>
+					<view class="history-list-item">
+						<text v-for="(item,index) in histories" :key="index" @click="gotoGoodsList(item)">{{ item }}</text>
+					</view>
 				</view>
-				<view class="history-list-item">
-					<text v-for="(item,index) in histories" :key="index" @click="gotoGoodsList(item)">{{ item }}</text>
-				</view>
-			</view>
-		</scroll-view>
+			</scroll-view>
+		</view>
 	</view>
 </template>
 
@@ -48,7 +50,7 @@
 				clearTimeout(this.time)
 				this.time=setTimeout(()=>{
 					this.getSearchList()
-				},300)
+				},30)
 			},
 			blur(){
 				this.searchInfo=this.searchInfo.trim()
@@ -102,7 +104,7 @@
 	.noScrolling  {
 	  overflow: hidden;
 	  height: 100vh;
-		background-color: #FFD524;
+		background-color: #fff;
 	}
 
 	.search-box{
@@ -119,12 +121,36 @@
 			margin: auto;
 			padding-left: 80rpx;
 		}
+		&::before{
+			content: '';
+			display: block;
+			position: absolute;
+			bottom: -50%;
+			left: 0;
+			background-color: #FFD524;
+			width: 40rpx;
+			height: 40rpx;
+		}
+		&::after{
+			content: '';
+			display: block;
+			position: absolute;
+			bottom: -50%;
+			right: 0;
+			background-color: #FFD524;
+			width: 40rpx;
+			height: 40rpx;
+		}
+	}
+	
+	.list-container{
+		border-radius: 35rpx 35rpx 0 0;
+		overflow: hidden;
 	}
 	
 	.search-list{
 		width: 100%;
 		background-color: #fff;
-		border-radius: 35rpx;
 	}
 	.icon-saerch{
 		position: absolute;
@@ -151,7 +177,6 @@
 		}
 		text{
 			margin-left: 50rpx;
-			text-align: center;
 			line-height: 90rpx;
 			display: inline-block;
 			white-space: nowrap; 

@@ -1,7 +1,7 @@
 <template>
 	<view class="my-search-container" :style="{'backgroundColor':backgroundColor}" @click="searchHandler">
 		<view class="my-search-box" :style="{'border-radius':borderRadius +'rpx'}">
-			<image src="../../static/search.png" mode=""></image>
+			<image src="http://rmf8g6uw4.bkt.clouddn.com/search.png" mode=""></image>
 			<text>搜索</text>
 		</view>
 	</view>

@@ -5,7 +5,9 @@
 </template>
 
 <script>
+	import setBadge from '@/mixins/tabbar-badge.js'
   export default {
+		mixins:[setBadge],
     data() {
       return {
         

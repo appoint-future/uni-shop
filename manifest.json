@@ -55,7 +55,11 @@
             "urlCheck" : false,
             "checkSiteMap": false
         },
-        "usingComponents" : true
+				"lazyCodeLoading": "requiredComponents",
+        "usingComponents" : true,
+				"requiredPrivateInfos": [
+				    "chooseAddress"
+				]
     },
     "vueVersion" : "2"
 }

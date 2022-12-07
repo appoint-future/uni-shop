@@ -6,12 +6,12 @@
 		
     <view class="scroll-view-container">
 			<!-- 左侧一级菜单 -->
-    	<scroll-view class="scroll-left-box" scroll-y :style="{height: wh + 'px'}">
+    	<scroll-view class="scroll-left-box" scroll-y :style="{height: wh + 'px'}" :show-scrollbar="false" :enhanced="true">
     		<view v-for="(item,index) in cateList" :key="item.cat_id"
 			 :class="['scroll-left-item',index === active ? 'active' : '']" @click="changeActive(index)">{{ item.cat_name }}</view>
     	</scroll-view>
 			<!-- 右侧二三级菜单 -->
-			<scroll-view class="scroll-right-box" scroll-y :style="{height: wh + 'px'}" :scroll-top="scrollTop">
+			<scroll-view class="scroll-right-box" scroll-y :style="{height: wh + 'px'}" :scroll-top="scrollTop" :show-scrollbar="false" :enhanced="true">
 			<view v-for="item in cateLevel2" :key="item.cat_id" class="cate-level2">
 				<!-- 二级菜单 -->
 				<view class="cate-level2-title">/ {{ item.cat_name }} /</view>
@@ -29,7 +29,9 @@
 </template>
 
 <script>
+	import setBadge from '@/mixins/tabbar-badge.js'
   export default {
+		mixins:[setBadge],
     data() {
       return {
         // 手机的可用高度

@@ -8,7 +8,7 @@
 				</swiper-item>
 			</block>
 			<swiper-item v-else>
-				<image src="../../static/default.png" mode=""></image>
+				<image src="http://rmf8g6uw4.bkt.clouddn.com/default.png" mode=""></image>
 			</swiper-item>
 		</swiper>
 		<!-- 商品信息区域 -->
@@ -33,17 +33,17 @@
 		<!-- 底部导航区域 -->
 		<view class="goods-Bar">
 			<view class="shop">
-				<image src="../../static/shop.png" mode=""></image>
+				<image src="http://rmf8g6uw4.bkt.clouddn.com/shop.png" mode=""></image>
 				<text>店铺</text>
 			</view>
 			<view class="cart" @click="toCart">
-				<cl-badge type="error" :value="2">
-					<image src="../../static/cart.png" mode=""></image>
+				<cl-badge type="error" :value="count">
+					<image src="http://rmf8g6uw4.bkt.clouddn.com/cart.png" mode=""></image>
 				</cl-badge>
 				<text>购物车</text>
 			</view>
 			<view class="btn">
-				<cl-button round class="cart-add">加入购物车</cl-button>
+				<cl-button round class="cart-add" @click="addGoods">加入购物车</cl-button>
 				<cl-button round class="buy-goods">立即购买</cl-button>
 			</view>
 		</view>
@@ -51,13 +51,34 @@
 </template>
 
 <script>
+	import { mapState , mapMutations , mapGetters} from 'vuex'
+	import setBadge from '@/mixins/tabbar-badge.js'
 	export default {
+		mixins:[setBadge],
 		data() {
 			return {
-				goodsDetailInfo:[]
+				goodsDetailInfo:[],
+				count:0
+			}
+		},
+		computed:{
+			...mapState('m_cart',['cart']),
+			...mapGetters('m_cart',['total'])
+		},
+		watch:{
+			// total(newVal) {
+			// 	this.count=newVal
+			// }
+			
+			total: {
+				handler(newVal){
+					this.count=newVal
+				},
+				immediate:true
 			}
 		},
 		methods: {
+			...mapMutations('m_cart',['addToCart']),
 			async getGoodsDetailInfo(id){
 				const {data:res}=await uni.$http.get('/api/public/v1/goods/detail',{goods_id:id})
 				if(res.meta.status!==200) return uni.$showToast()
@@ -74,6 +95,18 @@
 				uni.switchTab({
 					url:'/pages/cart/cart'
 				})
+			},
+			addGoods(){
+				const goods = {
+					goods_id:this.goodsDetailInfo.goods_id,
+					goods_name:this.goodsDetailInfo.goods_name,
+					goods_price:this.goodsDetailInfo.goods_price,
+					goods_count:1,
+					goods_small_logo:this.goodsDetailInfo.goods_small_logo,
+					goods_state:true
+				}
+				this.addToCart(goods)
+				uni.$showToast('添加成功亲~',1500,'success')
 			}
 		},
 		onLoad(options){
@@ -85,6 +118,7 @@
 <style lang="scss">
 	.goods-detail-container{
 		background-color: #efefef;
+		padding-bottom: 120rpx;
 	}
 	
 	swiper{
@@ -140,7 +174,9 @@
 	}
 	
 	.goods-Bar{
-		position: sticky;
+		position: fixed;
+		width: 100%;
+		height: 100rpx;
 		background-color: #fff;
 		z-index: 999;
 		bottom: 0;
