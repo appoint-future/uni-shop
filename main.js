@@ -16,6 +16,13 @@ $http.beforeRequest = function(options) {
 	uni.showLoading({
 		title:'数据加载中...'
 	})
+	// 判断是否需要添加token认证
+	if(options.url.indexOf('/my/')!==-1){
+		options.header={
+			// Authorization: 'Bearer' + store.state.m_user.token
+			Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOjIzLCJpYXQiOjE1NjQ3MzAwNzksImV4cCI6MTAwMTU2NDczMDA3OH0.YPt-XeLnjV-_1ITaXGY2FhxmCe4NvXuRnRB8OMCfnPo'
+		}
+	}
 }
 
 // 请求完成之后做一些事情
